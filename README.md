@@ -1,2 +1,3 @@
 # GeneralRedditBot
-Don't laugh please at this i don't know how i did it
+So this bot goes around reddit trying to talk to people (but not in a smart way).
+Just edit the responses to change what the bot says.
