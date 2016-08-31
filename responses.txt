@@ -1,0 +1,28 @@
+~ This text document allows you to write phrases for your bot to respond to + some extra cool stuff (not really)
+~ Parameters determine when the phrase should be used and are put before the | symbol
+~ The phrase is placed after and allows manipulation of the phrase in many ways.
+~ For parameters: parameters take simple binary 'OR', an 'OR' sign is a slash '/',  
+~ everything between these slashes uses 'AND' logic automatically
+~ For example "chicken""bad"/"vegetables""good" will use the phrase if the parent comment contains chicken and bad or vegetables and good
+~ Parameters syntax: 
+~ '.' means the phrase can only be used in reply to an unread inbox comment or message (could be a reply to a comment posted by the bot)
+~ '?' means the parent comment is a question
+~ 'p' means the parent comment is personal, e.g the person is talking be themselves (words like i, i am etc.)
+~ 'd' means the word is directed at a person (words like you, you're etc.), good when used with '?'
+~ 's' means that the phrase will only be used if the parent comment actually has a subject in it. This actually does not use and logic because most comments will have a subject
+~ "" allow you to search for words or phrases inside the parent comment (not case sensitive), e.g "he is fat" or "happy", the search method for the first is not the same as the second btw
+~ Now for the in phrase formatting tags, which are placed inside square brackets [ ]:
+~ [u] means the user's name, this is stripped of numbers that do not add to meaning, so this is not raw author name
+~ [s] means the subject of the parent comment (doesn't work brilliantly).
+~ You can phrases chosen from putting words in {} and seperating the choices with '/' - DO NOT PUT A CURLY BRACKET IN A CURLY BRACKET OTHERWISE THE PROGRAM WILL EXPLODE
+~ Please don't look at the code as it is ugly and this was my first python program
+~ Lines that start with '~' are ignored and putting a '%' will stop the search through the document at that line (good for testing stuff)
+~ Created by /u/DjDylex - please don't make fun of me for this mess
+p|That's just, like, your opinion, man
+?.|i don't {really/} understand what you mean dude
+?.|what do you mean dude?
+s|[s] is something {i'd/i would} like to learn more about
+|I once saw a porno that started like that
+"bot"d?|{i am not a/i'm not a/i'm no/i am no} bot
+"bot"|Why are you talking about bots?
+.d|What the fuck did you just fucking say about me, you little bitch? I’ll have you know I graduated top of my class in the Navy Seals, and I’ve been involved in numerous secret raids on Al-Quaeda, and I have over 300 confirmed kills. I am trained in gorilla warfare and I’m the top sniper in the entire US armed forces. You are nothing to me but just another target. I will wipe you the fuck out with precision the likes of which has never been seen before on this Earth, mark my fucking words. You think you can get away with saying that shit to me over the Internet? Think again, fucker. As we speak I am contacting my secret network of spies across the USA and your IP is being traced right now so you better prepare for the storm, maggot. The storm that wipes out the pathetic little thing you call your life. You’re fucking dead, [u]. I can be anywhere, anytime, and I can kill you in over seven hundred ways, and that’s just with my bare hands. Not only am I extensively trained in unarmed combat, but I have access to the entire arsenal of the United States Marine Corps and I will use it to its full extent to wipe your miserable ass off the face of the continent, you little shit. If only you could have known what unholy retribution your little “clever” comment was about to bring down upon you, maybe you would have held your fucking tongue. But you couldn’t, you didn’t, and now you’re paying the price, you goddamn idiot. I will shit fury all over you and you will drown in it. You’re fucking dead, [u]. (not really)
