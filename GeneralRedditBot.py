@@ -29,14 +29,10 @@ for x, line in enumerate(subject_list):
     line.replace('.', ' ')
     subject_list[x] = line
 del words2
-
-default_phrase = "interesting"
-
 comment_total = 10
 comment_skip = 37
 if (comment_skip > 1):
     comment_skip = random.randint(comment_skip - 1, comment_skip + 1) # Gives a bit of randomness to skip so that repeated runnings with same skip will not place the same comment
-
 largest_subject = len(max(subject_list, key=len))
 
 def binary_search(search_item): # This is used to check through the subject_list document to help get the subject of a comment
@@ -145,7 +141,6 @@ def generate_response(comment, is_reply): # Generates a response based on contex
     directed_trigger_words = ["you", "are", "you're", "youre", "your"]
     phrases = []
     words = split_words(comment.body.lower()) # generates a list of individual words that is used for various things, all lower case
-    
     is_question = False
     is_personal = False
     is_directed = False
@@ -162,9 +157,7 @@ def generate_response(comment, is_reply): # Generates a response based on contex
             if (word == parameter):
                 is_question = True
                 break
-            
     subject = check_for_nouns(words) # Gets the subject of the sentence
-    
     for line in lines: # Generates a list of phrases that can be used and selected from given the context
         if (line[0] == '%'): # Stop if % sign found
             break
@@ -233,7 +226,7 @@ def generate_response(comment, is_reply): # Generates a response based on contex
     if (len(phrases) > 0):
         output_text = random.choice(phrases) # Selects phrase to use randomely out of phrases
     else:
-        output_text = default_phrase # This is posted if there are not phrases that are eligable
+        return ""
     x = 0
     while x < len(output_text): # Replaces characters and chooses random phrases
         if (output_text[x] == '{'):
@@ -255,10 +248,27 @@ def generate_response(comment, is_reply): # Generates a response based on contex
             output_text = replace_character(output_text, comment, x + 1, subject)
         x += 1
     del x
-
     output_text = output_text.rstrip() # Removes whitespace to the right which just seem to be added on for i don't know why
-    
     return output_text
+
+def attempt_comments(comments):
+    actual_coms = 0
+    for coms, comment in enumerate(comments, 1): # Move through each comment in subreddit
+        for x in reversed(range(0, coms + 1)):
+            if (int(coms) % int(comment_skip) == 0) and comment.author.name != username:
+                reply = generate_response(comment, False)       
+                if(reply != ""):
+                    print("        Attempting Comment...")
+                    try:
+                        comment.reply(reply)
+                    except praw.errors.RateLimitExceeded:
+                        print("This account has exceeded its maximum amount of comments in a time on /r/" + subreddit_name + ", terminating commenting on this sub.")
+                        return actual_coms
+                    else:
+                        print("        Commented.")
+                        actual_coms += 1
+                        break
+    return actual_coms
 
 def run_program():
     global subreddits
@@ -284,21 +294,11 @@ def run_program():
             print("Getting comment information...")
             comments = subreddit.get_comments(limit=(comment_total*comment_skip))
             
-            actual_coms = 0
             print("Starting automated commenting system...")
             
             print("    Repying to thread comments...")
-            for coms, comment in enumerate(comments, 1): # Move through each comment in subreddit
-                if (int(coms) % int(comment_skip) == 0): # and comment.author.name != username:
-                    print("        Attempting Comment...")
-                    try:
-                        comment.reply(generate_response(comment, False))
-                    except praw.errors.RateLimitExceeded:
-                        print("This account has exceeded its maximum amount of comments in a time on /r/" + subreddit_name + ", terminating commenting on this sub.")
-                        break
-                    else:
-                        print("        Commented.")
-                        actual_coms += 1
+
+            actual_comments = attempt_comments(comments) # This is where the comments are actually made
                 
             print("    " + str(actual_coms) + " comments have been made in /r/" + subreddit_name + ".")
             print(" ")
@@ -311,15 +311,19 @@ def run_program():
     print("    Looking at inbox...")
     replied = False
     for coms, comment in enumerate(inbox): # Replies to comments
-        try:
-            comment.reply(generate_response(comment, True))
-            replied = True # This keeps track of unread messages that have attempted to be replied to so that it can be stated if there are not any to reply to.
-        except praw.errors.RateLimitExceeded:
-            print("        Tried to reply to a comment but cannot in this subreddit as the maximum number of comments has been exceeded.")
+        reply = generate_response(comment, True)
+        if (reply == ""):
+            continue
         else:
-            print("        Replied to inbox comment.")
-            comment.mark_as_read()
-            actual_coms += 1
+            try:
+                comment.reply(reply)
+                replied = True # This keeps track of unread messages that have attempted to be replied to so that it can be stated if there are not any to reply to.
+            except praw.errors.RateLimitExceeded:
+                print("        Tried to reply to a comment but cannot in this subreddit as the maximum number of comments has been exceeded.")
+            else:
+                print("        Replied to inbox comment.")
+                comment.mark_as_read()
+                actual_coms += 1
         print("")
     if (replied == False):
         print("    There are no unread messages in the inbox.")
