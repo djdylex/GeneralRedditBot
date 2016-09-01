@@ -6,8 +6,8 @@ import random
 
 subreddits = ["test"] # PUT SUBREDDITS IN HERE!!!
 
-username = "EditingTips"
-password = "password1"
+username = "USERNAME"
+password = "PASSWORD"
 
 cwd = os.getcwd()
 try:
