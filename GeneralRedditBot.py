@@ -1,6 +1,6 @@
 import praw
 import math
-import os # I USE THIS ONLY TO GET ONE THING WHICH IS THE LOCAL DIRECTORY OF THE FILE, YOU CAN CHECK BY PRESSING CTRL + F, SELECTING 'match word' AND TYPING IN 'os' AND IT WILL ONLY MATCH TWICE I PROMISE
+import os # This is used only to get the local directory of a file, nothing malicious.
 import time
 import random
 
