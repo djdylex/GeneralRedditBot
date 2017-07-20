@@ -329,5 +329,5 @@ def run_program():
         print("    There are no unread messages in the inbox.")
     print("Completed Program...")
 
-# By Dom Newman (dont hurt me)
+# By Dom Newman
 run_program()
