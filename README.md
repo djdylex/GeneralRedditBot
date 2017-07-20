@@ -1,5 +1,5 @@
 # GeneralRedditBot
-So this bot goes around reddit trying to talk to people (but not in a smart way).
+This bot moves around reddit replying to comments and posts, it a has a range of useful features to allow a large amount control over what responses it makes and to what kinds of commets (e.g, it can detect if a commet is a question).
 Just edit the responses to change what the bot says.
 
 You must download both the subject_list and responses for this to work.
